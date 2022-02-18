@@ -6,7 +6,6 @@ Name: Roopak Priydarshi
 
 Roll No: 20CS30042
 
-
 ## Python GUI Assignment (tkinter)
 
 This is a follow up assignment to the Python Datascience assignment which we have already completed. In this assignment we will design a GUI using `tkinter` which would have the following overall functionality:

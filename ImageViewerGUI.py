@@ -25,16 +25,18 @@ def fileClick(clicked, dataset, segmentor):
 
 	global img
 	try:
-		img = Image.open(filedialog.askopenfilename(defaultextension=".jpg", filetypes=[("All image files", "*.jpg *.jpeg *.png"), ("JPG image", "*.jpg"), ("PNG annotation", "*.png")], initialdir="./data/imgs", title="Select Image"))
+		str = filedialog.askopenfilename(defaultextension=".jpg", filetypes=[("All image files", "*.jpg *.jpeg *.png"), ("JPG image", "*.jpg"), ("PNG annotation", "*.png")], initialdir="./data/imgs", title="Select Image")
+		img = Image.open(str)
 	except IOError:
 		status['text'] = "File not read! Please retry."
 		return
+	entry = StringVar(value=str)
+	e['textvariable'] = entry
 	src = np.asarray(img).transpose((2, 0, 1))/255
 	pred_boxes, pred_masks, pred_class, pred_score = segmentor(src)
 	plot_visualization(src, pred_masks[:3], pred_boxes[:3], pred_class[:3], './output/')
 	print("Image uploaded! You can process now.")
 	status['text'] = "Image uploaded! You can process now."
-
 	####### CODE REQUIRED (END) #######
 
 # `process` function definition starts from here.
@@ -63,7 +65,6 @@ def process(clicked):
 		p1.grid(row=0, column=0)
 		p2 = Label(panel, image= img2)
 		p2.grid(row=0, column=2)
-
 	####### CODE REQUIRED (END) #######
 
 # `main` function definition starts from here.
