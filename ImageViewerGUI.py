@@ -6,7 +6,7 @@ from my_package.data.transforms import FlipImage, RescaleImage, BlurImage, CropI
 from PIL import Image
 
 ####### ADD THE ADDITIONAL IMPORTS FOR THIS ASSIGNMENT HERE #######
-from tkinter import Tk, filedialog, Entry, Button, StringVar, Toplevel, Label
+from tkinter import Tk, filedialog, Entry, Button, StringVar, Toplevel, Label, Frame
 from tkinter.ttk import Combobox
 from functools import partial
 from PIL import ImageTk
@@ -37,6 +37,7 @@ def fileClick(clicked, dataset, segmentor):
 	plot_visualization(src, pred_masks[:3], pred_boxes[:3], pred_class[:3], './output/')
 	print("Image uploaded! You can process now.")
 	status['text'] = "Image uploaded! You can process now."
+	process(clicked)
 	####### CODE REQUIRED (END) #######
 
 # `process` function definition starts from here.
@@ -56,15 +57,15 @@ def process(clicked):
 		return
 	else:
 		file = {"Segmentation":'masked_result', "Bounding-box":'bbox_result', "Segmentation + Bounding-box":'complete'}
-		panel = Toplevel(root)
-		panel.title("Image for comparison")
+		panel = Frame(root)
+		panel.grid(row=1, column=0, columnspan=4)
 		global img1, img2
 		img1 = ImageTk.PhotoImage(img)
 		img2 = ImageTk.PhotoImage(Image.open('./output/'+file[clicked.get()]+'.jpg'))
-		p1 = Label(panel, image= img1)
+		p1 = Label(panel, image= img1, padx=4, pady=4)
 		p1.grid(row=0, column=0)
-		p2 = Label(panel, image= img2)
-		p2.grid(row=0, column=2)
+		p2 = Label(panel, image= img2, padx=4, pady=4)
+		p2.grid(row=0, column=3)
 	####### CODE REQUIRED (END) #######
 
 # `main` function definition starts from here.
@@ -77,7 +78,7 @@ if __name__ == '__main__':
 	root = Tk()
 	root.title("Image identifier model")
 	status = Label(root, pady=5,text='Status will be displayed here')
-	status.grid(row=1, column=0, columnspan=4)
+	status.grid(row=2, column=0, columnspan=4)
 
 	####### CODE REQUIRED (END) #######
 
@@ -95,7 +96,7 @@ if __name__ == '__main__':
 	clicked = StringVar()
 	clicked.set(options[2])
 
-	e = Entry(root, width=70, state='disabled')
+	e = Entry(root, width=72, state='disabled')
 	e.grid(row=0, column=0)
 
 	####### CODE REQUIRED (START) #######
@@ -106,7 +107,7 @@ if __name__ == '__main__':
 
 	####### CODE REQUIRED (START) #######
 	# Declare the drop-down button
-	list = Combobox(root, textvariable= clicked, state= 'readonly', values= options, width=30).grid(row=0, column=2)
+	list = Combobox(root, textvariable= clicked, state= 'readonly', values= options, width=27).grid(row=0, column=2)
 	####### CODE REQUIRED (END) #######
 
 	# This is a `Process` button, check out the sample video to know about its functionality
